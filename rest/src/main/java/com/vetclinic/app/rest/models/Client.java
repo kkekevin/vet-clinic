@@ -21,7 +21,7 @@ import lombok.Setter;
 @Setter
 public class Client {
     @Id
-    @Column (unique = true, nullable = false)
+    @Column (nullable = false)
     private int cpf;
 
     @Column (nullable = false, length = 100)

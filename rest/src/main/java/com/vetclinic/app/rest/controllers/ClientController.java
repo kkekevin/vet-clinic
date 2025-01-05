@@ -53,18 +53,15 @@ public class ClientController {
     }
     
     @PostMapping(value = "/save")
-    public String createClient (@RequestBody Client client) {
-        //Set<ClienTel> clienTels = client.getTelefone();
-        // clienTel.setClient(client);
-        clientRepo.save(client);
+    public ResponseEntity<String> createClient (@RequestBody Client client) {
         for (ClienTel i : client.getTelefone()) {
-            ClienTel clienTel = new ClienTel(client);
+            ClienTel clienTel = new ClienTel(clientRepo.save(client));
             System.out.println("telefone: " + i.getTelefone());
             clienTel.setTelefone(i.getTelefone());
             clienTelRepo.save(clienTel);
         }
 
-        return "...saved";
+        return ResponseEntity.status(HttpStatus.CREATED).body("...saved");
     }
 
     @PutMapping(value = "/update/{cpf}")
