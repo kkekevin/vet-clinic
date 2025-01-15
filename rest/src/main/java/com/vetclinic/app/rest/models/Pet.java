@@ -1,11 +1,18 @@
 package com.vetclinic.app.rest.models;
 
+import java.sql.Date;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -20,23 +27,29 @@ import lombok.Setter;
 @Setter
 public class Pet {
     @Id
-    @Column(unique = true, nullable = false)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "pet_seq")
+    @SequenceGenerator(name = "pet_seq", sequenceName = "pet_seq", allocationSize = 1)
     private int cod_animal;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JsonBackReference
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "cpf", nullable = false)
     private Client client;
 
     @Column(nullable = false, length = 30)
     private String nome;
 
-    @Column(nullable = false)
-    private String data_nascimento;
+    @Column(length = 20)
+    private Date data_nascimento;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 15)
     private String raca;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 15)
     private String tipo;
+
+    public Pet (Client client) {
+        this.client = client;
+    }
     
 }

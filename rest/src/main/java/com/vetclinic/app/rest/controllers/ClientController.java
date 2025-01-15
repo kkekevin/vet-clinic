@@ -1,6 +1,5 @@
 package com.vetclinic.app.rest.controllers;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,8 +30,7 @@ public class ClientController {
     @GetMapping(value = "/client")
     public ResponseEntity<List<Client>> getAllClient () {
         try {
-            List<Client> clientList = new ArrayList<>();
-            clientRepo.findAll().forEach(clientList::add);
+            List<Client> clientList = clientRepo.findAll();
 
             if (clientList.isEmpty())
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -44,7 +42,7 @@ public class ClientController {
     }
 
     @GetMapping(value = "/client/{cpf}")
-    public ResponseEntity<Client> getClient (@PathVariable int cpf) {
+    public ResponseEntity<Client> getClient (@PathVariable String cpf) {
         Optional<Client> client = clientRepo.findById(cpf);
 
         if (client.isPresent())
@@ -56,7 +54,6 @@ public class ClientController {
     public ResponseEntity<String> createClient (@RequestBody Client client) {
         for (ClienTel i : client.getTelefone()) {
             ClienTel clienTel = new ClienTel(clientRepo.save(client));
-            System.out.println("telefone: " + i.getTelefone());
             clienTel.setTelefone(i.getTelefone());
             clienTelRepo.save(clienTel);
         }
@@ -65,7 +62,7 @@ public class ClientController {
     }
 
     @PutMapping(value = "/update/{cpf}")
-    public String updateClient (@PathVariable int cpf, @RequestBody Client client) {
+    public String updateClient (@PathVariable String cpf, @RequestBody Client client) {
         Client updatedClient = clientRepo.findById(cpf).get();
         updatedClient.setNome(client.getNome());
         updatedClient.setCidade(client.getCidade());
@@ -74,7 +71,7 @@ public class ClientController {
     }
 
     @DeleteMapping(value = "/delete/{cpf}")
-    public String deleteClient (@PathVariable int cpf) {
+    public String deleteClient (@PathVariable String cpf) {
         Client deletedClient = clientRepo.findById(cpf).get();
         clientRepo.delete(deletedClient);
         return "deleted...";

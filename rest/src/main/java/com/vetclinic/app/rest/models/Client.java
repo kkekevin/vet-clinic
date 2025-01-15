@@ -2,6 +2,8 @@ package com.vetclinic.app.rest.models;
 
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -22,7 +24,7 @@ import lombok.Setter;
 public class Client {
     @Id
     @Column (nullable = false)
-    private int cpf;
+    private String cpf;
 
     @Column (nullable = false, length = 100)
     private String nome;
@@ -44,10 +46,12 @@ public class Client {
     
     @Column(length = 60)
     String email;
-
+    
+    @JsonManagedReference
     @OneToMany(mappedBy = "client", orphanRemoval = true, fetch = FetchType.LAZY)
     private Set<ClienTel> telefone;
-
+    
+    @JsonManagedReference
     @OneToMany(mappedBy = "client", orphanRemoval = true, fetch = FetchType.LAZY)
-    private Set<Pet> pets;
+    private Set<Pet> pet;
 }

@@ -1,5 +1,7 @@
 package com.vetclinic.app.rest.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -21,12 +23,13 @@ public class ClienTel {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id_tel;
     
+    @JsonBackReference
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "cpf", nullable = false)
     private Client client;
     
     @Column(name = "telefone")
-    private int telefone;
+    private String telefone;
 
     public ClienTel (Client client) {
         this.client = client;

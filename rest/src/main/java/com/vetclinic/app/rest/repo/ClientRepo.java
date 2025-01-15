@@ -4,6 +4,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.vetclinic.app.rest.models.Client;
 
-public interface ClientRepo extends JpaRepository<Client, Integer> {
+public interface ClientRepo extends JpaRepository<Client, String> {
     
 }
