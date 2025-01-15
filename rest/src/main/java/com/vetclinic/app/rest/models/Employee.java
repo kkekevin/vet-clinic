@@ -3,6 +3,7 @@ package com.vetclinic.app.rest.models;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -19,7 +20,7 @@ import lombok.Setter;
 public class Employee {
     @Id
     @Column (nullable = false, unique = true)
-    @GeneratedValue
+    @GeneratedValue (strategy = GenerationType.AUTO)
     private int id_empregado;
 
     @Column (nullable = false)
@@ -29,21 +30,23 @@ public class Employee {
     private String nome;
 
     @Column (length = 100)
-    String logradouro;
+    private String logradouro;
     
     @Column (length = 60, nullable = false)
-    String cidade;
+    private String cidade;
     
     @Column(length = 2, nullable = false)
-    String uf;
+    private String uf;
     
     @Column(length = 40)
-    String bairro;
+    private String bairro;
     
     @Column(length = 9)
-    String cep;
+    private String cep;
     
     @Column(length = 60)
-    String email;
+    private String email;
+
+    private String telefone;
 
 }
