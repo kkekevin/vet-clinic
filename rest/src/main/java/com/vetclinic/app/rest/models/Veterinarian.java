@@ -1,9 +1,10 @@
 package com.vetclinic.app.rest.models;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -18,9 +19,13 @@ import lombok.Setter;
 @Setter
 public class Veterinarian {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private int crmv;
 
-    private int id_empregado;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "id_empregado", nullable = false)
+    private Employee employee;
 
+    public Veterinarian (Employee employee) {
+        this.employee = employee;
+    }
 }

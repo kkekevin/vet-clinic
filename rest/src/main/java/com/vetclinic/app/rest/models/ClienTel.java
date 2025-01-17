@@ -10,6 +10,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
@@ -20,7 +21,9 @@ import lombok.Setter;
 @Getter
 public class ClienTel {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column (nullable = false, unique = true)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "cliente_tel_seq")
+    @SequenceGenerator(name = "cliente_tel_seq", sequenceName = "cliente_tel_seq", allocationSize = 1)
     private int id_tel;
     
     @JsonBackReference

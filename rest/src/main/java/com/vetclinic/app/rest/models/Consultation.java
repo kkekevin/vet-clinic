@@ -3,7 +3,9 @@ package com.vetclinic.app.rest.models;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -19,7 +21,8 @@ import lombok.Setter;
 public class Consultation {
     @Id
     @Column (nullable = false, unique = true)
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "consultas_seq")
+    @SequenceGenerator(name = "consultas_seq", sequenceName = "consultas_seq", allocationSize = 1)
     private int cod_consulta;
 
     @Column (nullable = false)
