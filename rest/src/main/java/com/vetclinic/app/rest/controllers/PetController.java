@@ -1,11 +1,7 @@
 package com.vetclinic.app.rest.controllers;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -59,10 +55,7 @@ public class PetController {
 
     @DeleteMapping(value = "/pet/{cpf}/delete")
     public ResponseEntity<String> deletePet (@PathVariable String cpf, @RequestBody Pet name) {
-        System.out.println(cpf + " " + name.getNome());
         petRepo.deletePetByName(cpf, name.getNome());
-        // return deletedPet != null ? new ResponseEntity<>(deletedPet, HttpStatus.OK)
-        //                         : new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
         return new ResponseEntity<>("deleted...", HttpStatus.OK);
     }
 
