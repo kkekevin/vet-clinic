@@ -1,5 +1,7 @@
 package com.vetclinic.app.rest.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -21,6 +23,7 @@ public class Veterinarian {
     @Id
     private int crmv;
 
+    @JsonBackReference
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_empregado", nullable = false)
     private Employee employee;

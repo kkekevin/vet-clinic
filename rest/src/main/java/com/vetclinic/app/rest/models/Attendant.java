@@ -1,5 +1,7 @@
 package com.vetclinic.app.rest.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -26,6 +28,7 @@ public class Attendant {
     @SequenceGenerator(name = "recepcionistas_seq", sequenceName = "recepcionistas_seq", allocationSize = 1)
     private int cod_recepcionista;
 
+    @JsonBackReference
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_empregado", nullable = false)
     private Employee employee;

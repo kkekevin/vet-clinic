@@ -81,6 +81,7 @@ public class EmployeeController {
     public ResponseEntity<Employee> fireEmployee (@PathVariable int id) {
         Employee firedEmployee = employeeRepo.findById(id).get();
         if (firedEmployee != null) {
+            System.out.println("TEST");
             employeeRepo.delete(firedEmployee);
             return new ResponseEntity<>(firedEmployee, HttpStatus.OK);
         }
