@@ -1,10 +1,16 @@
 package com.vetclinic.app.rest.models;
 
+import java.sql.Date;
+import java.sql.Time;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -25,21 +31,30 @@ public class Consultation {
     @SequenceGenerator(name = "consultas_seq", sequenceName = "consultas_seq", allocationSize = 1)
     private int cod_consulta;
 
-    @Column (nullable = false)
-    private int crmv;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "crmv", nullable = false)
+    private Veterinarian veterinarian;
 
-    @Column (nullable = false)
-    private int cod_animal;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "cod_animal", nullable = false)
+    private Pet pet;
 
-    @Column (nullable = false)
-    private int cod_recepcionista;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "cod_recepcionista", nullable = false)
+    private Attendant attendant;
 
     @Column (nullable = false)
     private float valor;
 
-    @Column (nullable = false)
-    private String data_consulta;
+    @Column (nullable = false, length = 20)
+    private Date data_consulta;
 
     @Column (nullable = false)
-    private String hora_consulta;
+    private Time hora_consulta;
+
+    public Consultation (Veterinarian veterinarian, Pet pet, Attendant attendant) {
+        this.attendant = attendant;
+        this.veterinarian = veterinarian;
+        this.pet = pet;
+    }
 }
