@@ -2,15 +2,19 @@ package com.vetclinic.app.rest.models;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.util.Set;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -52,6 +56,12 @@ public class Consultation {
     @Column (nullable = false)
     private Time hora_consulta;
 
+    @OneToMany(mappedBy = "consultation")
+    private Set<ExamResult> examResults;
+
+    @OneToOne(mappedBy = "consultation", orphanRemoval = true, fetch = FetchType.LAZY)
+    private Invoice invoice;
+    
     public Consultation (Veterinarian veterinarian, Pet pet, Attendant attendant) {
         this.attendant = attendant;
         this.veterinarian = veterinarian;

@@ -10,8 +10,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.vetclinic.app.rest.models.Consultation;
+import com.vetclinic.app.rest.models.ExamResult;
+import com.vetclinic.app.rest.models.Invoice;
 import com.vetclinic.app.rest.repo.AttendRepo;
 import com.vetclinic.app.rest.repo.ConsultRepo;
+import com.vetclinic.app.rest.repo.ExamRepo;
+import com.vetclinic.app.rest.repo.InvoiceRepo;
 import com.vetclinic.app.rest.repo.PetRepo;
 import com.vetclinic.app.rest.repo.VetRepo;
 
@@ -25,6 +29,10 @@ public class ConsultationController {
     PetRepo petRepo;
     @Autowired
     AttendRepo attendRepo;
+    @Autowired
+    ExamRepo examRepo;
+    @Autowired
+    InvoiceRepo invoiceRepo;
 
     @PostMapping(value = "consult/save")
     public ResponseEntity<Consultation> consultPet(@RequestBody Consultation consultation) {
@@ -37,8 +45,8 @@ public class ConsultationController {
             newConsult.setData_consulta(consultation.getData_consulta());
             newConsult.setHora_consulta(consultation.getHora_consulta());
             consultRepo.save(newConsult);
-    
-            return ResponseEntity.status(HttpStatus.CREATED).body(consultation);            
+
+            return ResponseEntity.status(HttpStatus.CREATED).body(consultation);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -56,4 +64,17 @@ public class ConsultationController {
         return ResponseEntity.status(HttpStatus.OK).body("...updated");
     }
 
+    @PostMapping(value = "exam/save")
+    public ResponseEntity<ExamResult> addExam(@RequestBody ExamResult examResult) {
+        examRepo.save(examResult);
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(examResult);
+    }
+
+    @PostMapping(value = "invoice/{id}")
+    public ResponseEntity<String> payExams (@PathVariable int id) {
+        Invoice newInvoice = new Invoice(consultRepo.findById(id).get());
+        invoiceRepo.save(newInvoice);
+        return ResponseEntity.status(HttpStatus.OK).body("...paid");
+    }
+    
 }
